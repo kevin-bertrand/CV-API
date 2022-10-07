@@ -26,10 +26,10 @@ final class Experience: Model, Content {
     @Field(key: "location")
     var location: String
     
-    @Field(key: "start-date")
+    @Field(key: "start_date")
     var startDate: Date
     
-    @OptionalField(key: "end-date")
+    @OptionalField(key: "end_date")
     var endDate: Date?
     
     @Children(for: \.$experience)
