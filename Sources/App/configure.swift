@@ -42,6 +42,9 @@ public func configure(_ app: Application) throws {
     app.migrations.add(CreateSkill())
     app.migrations.add(CreateSubject())
     app.migrations.add(CreateTraining())
+    app.migrations.add(CreateUser())
+    app.migrations.add(CreateUserToken())
+    app.migrations.add(CreateDefaultAdmin())
 
     // register routes
     try routes(app)
