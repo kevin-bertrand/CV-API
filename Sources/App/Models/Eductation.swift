@@ -32,6 +32,9 @@ final class Education: Model, Content {
     @Field(key: "icon")
     var icon: String
     
+    @Field(key: "ending_date")
+    var endingDate: Date
+    
     @OptionalField(key: "document_path")
     var documentPath: String?
     
@@ -47,6 +50,7 @@ final class Education: Model, Content {
          level: String,
          location: String,
          icon: String,
+         endingDate: Date,
          documentPath: String?) {
         self.id = id
         self.school = school
@@ -54,6 +58,7 @@ final class Education: Model, Content {
         self.level = level
         self.location = location
         self.icon = icon
+        self.endingDate = endingDate
         self.documentPath = documentPath
     }
 }

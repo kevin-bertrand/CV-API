@@ -18,6 +18,7 @@ struct CreateEducation: AsyncMigration {
             .field("level", .string, .required)
             .field("location", .string, .required)
             .field("icon", .string, .required)
+            .field("ending_date", .date, .required)
             .field("document_path", .string)
             .create()
     }
