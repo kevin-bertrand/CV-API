@@ -17,6 +17,7 @@ struct CreateTraining: AsyncMigration {
             .field("organization", .string, .required)
             .field("date", .date, .required)
             .field("document_path", .string, .required)
+            .field("icon", .string, .required)
             .create()
     }
     

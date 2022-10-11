@@ -29,6 +29,9 @@ final class Training: Model, Content {
     @Field(key: "document_path")
     var documentPath: String
     
+    @Field(key: "icon")
+    var icon: String
+    
     // Initialization functions
     init() {}
     
@@ -36,11 +39,13 @@ final class Training: Model, Content {
          title: String,
          organization: String,
          date: Date,
-         documentPath: String) {
+         documentPath: String,
+         icon: String) {
         self.id = id
         self.title = title
         self.organization = organization
         self.date = date
         self.documentPath = documentPath
+        self.icon = icon
     }
 }
