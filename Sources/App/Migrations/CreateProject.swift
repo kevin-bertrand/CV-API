@@ -18,6 +18,7 @@ struct CreateProject: AsyncMigration {
             .field("description", .string, .required)
             .field("company", .string, .required)
             .field("date", .date, .required)
+            .field("github", .string)
             .create()
     }
     

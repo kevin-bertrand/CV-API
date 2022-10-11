@@ -32,6 +32,9 @@ final class Project: Model, Content {
     @Field(key: "date")
     var date: Date
     
+    @OptionalField(key: "github")
+    var github: String?
+    
     // Initialization functions
     init() {}
     
@@ -40,12 +43,14 @@ final class Project: Model, Content {
          mediaPath: String,
          description: String,
          company: String,
-         date: Date) {
+         date: Date,
+         github: String? = nil) {
         self.id = id
         self.title = title
         self.mediaPath = mediaPath
         self.description = description
         self.company = company
         self.date = date
+        self.github = github
     }
 }
