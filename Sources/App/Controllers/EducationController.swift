@@ -23,8 +23,36 @@ struct EducationController: RouteCollection {
     // MARK: Routes functions
     // Adding education
     private func create(req: Request) async throws -> Response {
-        let education = try req.content.decode(Education.self)
+        let serverIP = Environment.get("SERVER_HOSTNAME") ?? "127.0.0.1"
+        let serverPort = Environment.get("SERVER_PORT").flatMap(Int.init(_:)) ?? 8080
+        let createEducation = try req.content.decode(Education.Create.self)
+        
+        let education = Education(school: createEducation.school,
+                                  title: createEducation.title,
+                                  level: createEducation.level,
+                                  location: createEducation.location,
+                                  icon: createEducation.icon,
+                                  endingDate: createEducation.endingDate,
+                                  documentPath: createEducation.documentPath)
+        
         try await education.save(on: req.db)
+        
+        let educationId = try await Education.query(on: req.db)
+            .filter(\.$school == education.school)
+            .filter(\.$location == education.location)
+            .first()?
+            .id
+        
+        guard let id = educationId else {
+            throw Abort(.internalServerError)
+        }
+        
+        for subject in createEducation.subjects {
+            if let subjectUrl = subject.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
+                _ = try await req.client.post("http://\(serverIP):\(serverPort)/subject/\(id)/\(subjectUrl)", headers: req.headers)
+            }
+        }
+        
         return formatResponse(status: .created, body: .empty)
     }
     
@@ -33,7 +61,25 @@ struct EducationController: RouteCollection {
         let educations = try await Education.query(on: req.db)
             .sort(\.$endingDate)
             .all()
-        return formatResponse(status: .ok, body: .init(data: try JSONEncoder().encode(educations)))
+        
+        var educationArray = [Education.Getting]()
+        
+        for education in educations {
+            if let educationId = education.id {
+                let subjects = try await Subject.query(on: req.db).filter(\.$education.$id == educationId).all()
+                
+                educationArray.append(Education.Getting(school: education.school,
+                                                        title: education.title,
+                                                        level: education.level,
+                                                        location: education.location,
+                                                        icon: education.icon,
+                                                        endingDate: education.endingDate,
+                                                        documentPath: education.documentPath,
+                                                        subjects: subjects.map{$0.title}))
+            }
+        }
+        
+        return formatResponse(status: .ok, body: .init(data: try JSONEncoder().encode(educationArray)))
     }
     // MARK: Utilities functions
     /// Getting the connected user
