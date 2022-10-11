@@ -18,6 +18,7 @@ struct CreateExperience: AsyncMigration {
             .field("location", .string, .required)
             .field("start_date", .date, .required)
             .field("end_date", .date)
+            .field("icon", .string, .required)
             .create()
     }
     

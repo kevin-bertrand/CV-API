@@ -29,6 +29,9 @@ final class Experience: Model, Content {
     @Field(key: "start_date")
     var startDate: Date
     
+    @Field(key: "icon")
+    var icon: String
+    
     @OptionalField(key: "end_date")
     var endDate: Date?
     
@@ -38,12 +41,19 @@ final class Experience: Model, Content {
     // Initialization functions
     init() {}
     
-    init(id: UUID? = nil, title: String, company: String, location: String, startDate: Date, endDate: Date? = nil) {
+    init(id: UUID? = nil,
+         title: String,
+         company: String,
+         location: String,
+         startDate: Date,
+         endDate: Date? = nil,
+         icon: String) {
         self.id = id
         self.title = title
         self.company = company
         self.location = location
         self.startDate = startDate
         self.endDate = endDate
+        self.icon = icon
     }
 }
