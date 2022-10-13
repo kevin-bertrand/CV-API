@@ -34,7 +34,18 @@ struct ProjectController: RouteCollection {
             .sort(\.$date)
             .all()
         
-        return formatResponse(status: .ok, body: .init(data: try JSONEncoder().encode(projects)))
+        var projectsArray = [Project.Getting]()
+        
+        for project in projects {
+            projectsArray.append(Project.Getting(title: project.title,
+                                                 mediaPath: project.mediaPath,
+                                                 description: project.description,
+                                                 company: project.company,
+                                                 date: Int(project.date.timeIntervalSince1970),
+                                                 github: project.github))
+        }
+        
+        return formatResponse(status: .ok, body: .init(data: try JSONEncoder().encode(projectsArray)))
     }
     
     // MARK: Utilities functions

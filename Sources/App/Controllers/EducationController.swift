@@ -73,7 +73,7 @@ struct EducationController: RouteCollection {
                                                         level: education.level,
                                                         location: education.location,
                                                         icon: education.icon,
-                                                        endingDate: education.endingDate,
+                                                        endingDate: Int(education.endingDate.timeIntervalSince1970),
                                                         documentPath: education.documentPath,
                                                         subjects: subjects.map{$0.title}))
             }

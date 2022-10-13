@@ -22,8 +22,8 @@ extension Experience {
         let title: String
         let company: String
         let location: String
-        let startDate: Date
-        let endDate: Date?
+        let startDate: Int
+        let endDate: Int?
         let icon: String
         let missions: [Mission.Getting]
     }

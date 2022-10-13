@@ -25,7 +25,7 @@ extension Education {
         let level: String
         let location: String
         let icon: String
-        let endingDate: Date
+        let endingDate: Int
         let documentPath: String?
         let subjects: [String]
     }

@@ -31,7 +31,18 @@ struct TrainingController: RouteCollection {
     /// Getting all trainings
     private func get(req: Request) async throws -> Response {
         let trainings = try await Training.query(on: req.db).sort(\.$date).all()
-        return formatResponse(status: .ok, body: .init(data: try JSONEncoder().encode(trainings)))
+        
+        var trainingsArray = [Training.Getting]()
+        
+        for training in trainings {
+            trainingsArray.append(Training.Getting(title: training.title,
+                                                   organization: training.organization,
+                                                   date: Int(training.date.timeIntervalSince1970),
+                                                   documentPath: training.documentPath,
+                                                   icon: training.icon))
+        }
+        
+        return formatResponse(status: .ok, body: .init(data: try JSONEncoder().encode(trainingsArray)))
     }
     
     // MARK: Utilities functions

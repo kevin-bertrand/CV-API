@@ -63,12 +63,11 @@ struct ExperienceController: RouteCollection {
         for experience in experiences {
             if let experienceId = experience.id {
                 let missions = try await Mission.query(on: req.db).filter(\.$experience.$id == experienceId).all()
-                
                 experienceArray.append(Experience.Getting(title: experience.title,
                                                           company: experience.company,
                                                           location: experience.location,
-                                                          startDate: experience.startDate,
-                                                          endDate: experience.endDate,
+                                                          startDate: Int(experience.startDate.timeIntervalSince1970),
+                                                          endDate: Int(experience.endDate?.timeIntervalSince1970 ?? 0),
                                                           icon: experience.icon,
                                                           missions: missions.map({ return .init(title: $0.title, tasks: $0.tasks)})))
             }
