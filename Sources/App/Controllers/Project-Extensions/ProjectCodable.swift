@@ -15,5 +15,6 @@ extension Project {
         let company: String
         let date: Int
         let github: String?
+        let category: ProjectCategories
     }
 }

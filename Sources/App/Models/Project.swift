@@ -35,6 +35,9 @@ final class Project: Model, Content {
     @OptionalField(key: "github")
     var github: String?
     
+    @Enum(key: "category")
+    var category: ProjectCategories
+    
     // Initialization functions
     init() {}
     
@@ -44,7 +47,8 @@ final class Project: Model, Content {
          description: String,
          company: String,
          date: Date,
-         github: String? = nil) {
+         github: String? = nil,
+         category: ProjectCategories) {
         self.id = id
         self.title = title
         self.mediaPath = mediaPath
@@ -52,5 +56,6 @@ final class Project: Model, Content {
         self.company = company
         self.date = date
         self.github = github
+        self.category = category
     }
 }

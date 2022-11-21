@@ -11,6 +11,8 @@ import Vapor
 struct CreateProject: AsyncMigration {
     // Create DB
     func prepare(on database: Database) async throws {
+        let category = try await database.enum("project_categories").read()
+        
         try await database.schema(Project.schema)
             .id()
             .field("title", .string, .required)
@@ -19,6 +21,7 @@ struct CreateProject: AsyncMigration {
             .field("company", .string, .required)
             .field("date", .date, .required)
             .field("github", .string)
+            .field("category", category, .required)
             .create()
     }
     

@@ -18,10 +18,16 @@ struct CreateEnumerations: AsyncMigration {
             .case(SkillsCategories.other.rawValue)
             .case(SkillsCategories.automation.rawValue)
             .create()
+        
+        _ = try await database.enum("project_categories")
+            .case(ProjectCategories.iOS.rawValue)
+            .case(ProjectCategories.automation.rawValue)
+            .create()
     }
     
     // Delete DB
     func revert(on database: Database) async throws {
         try await database.enum("skills_categories").delete()
+        try await database.enum("project_categories").delete()
     }
 }

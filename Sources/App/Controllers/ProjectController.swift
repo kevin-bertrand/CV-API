@@ -42,7 +42,8 @@ struct ProjectController: RouteCollection {
                                                  description: project.description,
                                                  company: project.company,
                                                  date: Int(project.date.timeIntervalSince1970),
-                                                 github: project.github))
+                                                 github: project.github,
+                                                 category: project.category))
         }
         
         return formatResponse(status: .ok, body: .init(data: try JSONEncoder().encode(projectsArray)))
