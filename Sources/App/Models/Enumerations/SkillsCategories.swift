@@ -8,5 +8,5 @@
 import Foundation
 
 enum SkillsCategories: String, Codable {
-    case frontend, backend, management, other
+    case frontend, backend, management, automation, other
 }

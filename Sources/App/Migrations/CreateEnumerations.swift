@@ -16,6 +16,7 @@ struct CreateEnumerations: AsyncMigration {
             .case(SkillsCategories.frontend.rawValue)
             .case(SkillsCategories.management.rawValue)
             .case(SkillsCategories.other.rawValue)
+            .case(SkillsCategories.automation.rawValue)
             .create()
     }
     
