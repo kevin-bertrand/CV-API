@@ -49,7 +49,7 @@ struct ExperienceController: RouteCollection {
             }
         }
         
-        return formatResponse(status: .ok, body: .empty)
+        return GlobalFunctions.shared.formatResponse(status: .ok, body: .empty)
     }
     
     /// Getting experiences
@@ -73,20 +73,7 @@ struct ExperienceController: RouteCollection {
             }
         }
         
-        return formatResponse(status: .ok, body: .init(data: try JSONEncoder().encode(experienceArray)))
-    }
-    
-    // MARK: Utilities functions
-    /// Getting the connected user
-    private func getUserAuthFor(_ req: Request) throws -> User {
-        return try req.auth.require(User.self)
-    }
-    
-    /// Formating response
-    private func formatResponse(status: HTTPResponseStatus, body: Response.Body) -> Response {
-        var headers = HTTPHeaders()
-        headers.add(name: .contentType, value: "application/json")
-        return .init(status: status, headers: headers, body: body)
+        return GlobalFunctions.shared.formatResponse(status: .ok, body: .init(data: try JSONEncoder().encode(experienceArray)))
     }
 }
 

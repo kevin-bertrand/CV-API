@@ -22,26 +22,14 @@ struct UserController: RouteCollection {
     // MARK: Routes functions
     /// Login
     private func login(req: Request) async throws -> Response {
-        let userAuth = try getUserAuthFor(req)
+        let userAuth = try GlobalFunctions.shared.getUserAuthFor(req)
         
         let token = try await generateToken(for: userAuth, in: req)
         
-        return formatResponse(status: .ok, body: .init(string: token.value))
+        return GlobalFunctions.shared.formatResponse(status: .ok, body: .init(string: token.value))
     }
     
     // MARK: Utilities functions
-    /// Getting the connected user
-    private func getUserAuthFor(_ req: Request) throws -> User {
-        return try req.auth.require(User.self)
-    }
-    
-    /// Formating response
-    private func formatResponse(status: HTTPResponseStatus, body: Response.Body) -> Response {
-        var headers = HTTPHeaders()
-        headers.add(name: .contentType, value: "application/json")
-        return .init(status: status, headers: headers, body: body)
-    }
-    
     /// Generate token when login is success
     private func generateToken(for user: User, in req: Request) async throws -> UserToken {
         let token = try user.generateToken()
