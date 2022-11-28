@@ -89,7 +89,8 @@ struct EducationController: RouteCollection {
             if let educationId = education.id {
                 let subjects = try await Subject.query(on: req.db).filter(\.$education.$id == educationId).all()
                 
-                educationArray.append(Education.Getting(school: education.school,
+                educationArray.append(Education.Getting(id: try education.requireID(),
+                                                        school: education.school,
                                                         title: education.title,
                                                         level: education.level,
                                                         location: education.location,

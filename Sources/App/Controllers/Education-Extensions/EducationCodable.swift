@@ -20,6 +20,7 @@ extension Education {
     }
     
     struct Getting: Codable {
+        let id: UUID
         let school: String
         let title: String
         let level: String
