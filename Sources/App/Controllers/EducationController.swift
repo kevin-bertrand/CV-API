@@ -65,14 +65,15 @@ struct EducationController: RouteCollection {
         }
         let path = "/var/www/kevin.desyntic.com/public/docs/\(key)"
         
-        _ = req.body.collect()
-            .unwrap(or: Abort(.noContent))
-            .flatMap { req.fileio.writeFile($0, at: path)}
-        
         try await Training.query(on: req.db)
-            .set(\.$documentPath, to: path)
+            .set(\.$documentPath, to: key)
             .filter(\.$id == trainingId)
             .update()
+        
+        try req.body.collect()
+            .unwrap(or: Abort(.noContent))
+            .flatMap { req.fileio.writeFile($0, at: path)}
+            .wait()
         
         return GlobalFunctions.shared.formatResponse(status: .ok, body: .empty)
     }
