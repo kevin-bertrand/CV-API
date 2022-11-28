@@ -18,6 +18,7 @@ struct EducationController: RouteCollection {
         
         let tokenGroup = educationGroup.grouped(UserToken.authenticator()).grouped(UserToken.guardMiddleware())
         tokenGroup.post(use: create)
+        tokenGroup.patch("document", ":id", ":key", use: addDocument)
     }
     
     // MARK: Routes functions
@@ -54,6 +55,26 @@ struct EducationController: RouteCollection {
         }
         
         return GlobalFunctions.shared.formatResponse(status: .created, body: .empty)
+    }
+    
+    /// Adding document to eduction
+    private func addDocument(req: Request) async throws -> Response {
+        guard let key = req.parameters.get("key"),
+              let trainingId = req.parameters.get("id", as: UUID.self) else {
+            throw Abort(.notAcceptable)
+        }
+        let path = "/var/www/kevin.desyntic.com/public/docs/\(key)"
+        
+        _ = req.body.collect()
+            .unwrap(or: Abort(.noContent))
+            .flatMap { req.fileio.writeFile($0, at: path)}
+        
+        try await Training.query(on: req.db)
+            .set(\.$documentPath, to: path)
+            .filter(\.$id == trainingId)
+            .update()
+        
+        return GlobalFunctions.shared.formatResponse(status: .ok, body: .empty)
     }
     
     /// Getting all educations
