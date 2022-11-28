@@ -10,17 +10,17 @@ import Vapor
 
 final class User: Model, Content {
     // Name of the table
-    static let schema: String = "user"
+    static let schema: String = NameManager.User.schema.rawValue
     
     // Unique identifier
     @ID(key: .id)
     var id: UUID?
     
     // Fields
-    @Field(key: "email")
+    @Field(key: NameManager.User.email.rawValue.fieldKey)
     var email: String
     
-    @Field(key: "password_hash")
+    @Field(key: NameManager.User.passwordHash.rawValue.fieldKey)
     var passwordHash: String
     
     // Initialization functions

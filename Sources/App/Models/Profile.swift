@@ -10,41 +10,41 @@ import Vapor
 
 final class Profile: Model, Content {
     // Name of the table
-    static let schema: String = "profile"
+    static let schema: String = NameManager.Profile.schema.rawValue
     
     // Unique identifier
     @ID()
     var id: UUID?
     
     // Fields
-    @Field(key: "firstname")
+    @Field(key: NameManager.Profile.firstname.rawValue.fieldKey)
     var firstname: String
     
-    @Field(key: "lastname")
+    @Field(key: NameManager.Profile.lastname.rawValue.fieldKey)
     var lastname: String
     
-    @Field(key: "email")
+    @Field(key: NameManager.Profile.email.rawValue.fieldKey)
     var email: String
     
-    @Field(key: "phone")
+    @Field(key: NameManager.Profile.phone.rawValue.fieldKey)
     var phone: String
     
-    @Field(key: "city")
+    @Field(key: NameManager.Profile.city.rawValue.fieldKey)
     var city: String
     
-    @Field(key: "description")
+    @Field(key: NameManager.Profile.description.rawValue.fieldKey)
     var description: String
     
-    @Field(key: "title")
+    @Field(key: NameManager.Profile.title.rawValue.fieldKey)
     var title: String
     
-    @Field(key: "github")
+    @Field(key: NameManager.Profile.github.rawValue.fieldKey)
     var github: String
     
-    @Field(key: "linkedin")
+    @Field(key: NameManager.Profile.linkedin.rawValue.fieldKey)
     var linkedin: String
     
-    @Field(key: "codingames")
+    @Field(key: NameManager.Profile.condingames.rawValue.fieldKey)
     var codingames: String
     
     // Initialization functions

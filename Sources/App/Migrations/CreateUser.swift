@@ -11,15 +11,15 @@ import Vapor
 struct CreateUser: AsyncMigration {
     // Create DB
     func prepare(on database: Database) async throws {
-        try await database.schema(User.schema)
+        try await database.schema(NameManager.User.schema.rawValue)
             .id()
-            .field("email", .string, .required)
-            .field("password_hash", .string, .required)
+            .field(NameManager.User.email.rawValue.fieldKey, .string, .required)
+            .field(NameManager.User.passwordHash.rawValue.fieldKey, .string, .required)
             .create()
     }
     
     // Delete DB
     func revert(on database: Database) async throws {
-        try await database.schema(User.schema).delete()
+        try await database.schema(NameManager.User.schema.rawValue).delete()
     }
 }

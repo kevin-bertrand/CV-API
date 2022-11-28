@@ -10,20 +10,20 @@ import Vapor
 
 final class Skill: Model, Content {
     // Name of the table
-    static let schema: String = "skill"
+    static let schema: String = NameManager.Skill.schema.rawValue
     
     // Unique identifier
     @ID()
     var id: UUID?
     
     // Fields
-    @Field(key: "title")
+    @Field(key: NameManager.Skill.title.rawValue.fieldKey)
     var title: String
     
-    @Field(key: "image")
+    @Field(key: NameManager.Skill.image.rawValue.fieldKey)
     var image: String
     
-    @Enum(key: "category")
+    @Enum(key: NameManager.Skill.category.rawValue.fieldKey)
     var category: SkillsCategories
     
     // Initialization functions

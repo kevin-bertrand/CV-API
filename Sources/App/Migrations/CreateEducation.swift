@@ -11,20 +11,20 @@ import Vapor
 struct CreateEducation: AsyncMigration {
     // Create DB
     func prepare(on database: Database) async throws {
-        try await database.schema(Education.schema)
+        try await database.schema(NameManager.Education.schema.rawValue)
             .id()
-            .field("school", .string, .required)
-            .field("title", .string, .required)
-            .field("level", .string, .required)
-            .field("location", .string, .required)
-            .field("icon", .string, .required)
-            .field("ending_date", .date, .required)
-            .field("document_path", .string)
+            .field(NameManager.Education.school.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Education.title.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Education.level.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Education.location.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Education.icon.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Education.endingDate.rawValue.fieldKey, .date, .required)
+            .field(NameManager.Education.documentPath.rawValue.fieldKey, .string)
             .create()
     }
     
     // Delete DB
     func revert(on database: Database) async throws {
-        try await database.schema(Education.schema).delete()
+        try await database.schema(NameManager.Education.schema.rawValue).delete()
     }
 }

@@ -10,32 +10,32 @@ import Vapor
 
 final class Project: Model, Content {
     // Name of the table
-    static let schema: String = "project"
+    static let schema: String = NameManager.Project.schema.rawValue
     
     // Unique identifier
     @ID()
     var id: UUID?
     
     // Fields
-    @Field(key: "title")
+    @Field(key: NameManager.Project.title.rawValue.fieldKey)
     var title: String
     
-    @Field(key: "media_path")
+    @Field(key: NameManager.Project.mediaPath.rawValue.fieldKey)
     var mediaPath: String
     
-    @Field(key: "description")
+    @Field(key: NameManager.Project.description.rawValue.fieldKey)
     var description: String
     
-    @Field(key: "company")
+    @Field(key: NameManager.Project.company.rawValue.fieldKey)
     var company: String
     
-    @Field(key: "date")
+    @Field(key: NameManager.Project.date.rawValue.fieldKey)
     var date: Date
     
-    @OptionalField(key: "github")
+    @OptionalField(key: NameManager.Project.github.rawValue.fieldKey)
     var github: String?
     
-    @Enum(key: "category")
+    @Enum(key: NameManager.Project.category.rawValue.fieldKey)
     var category: ProjectCategories
     
     // Initialization functions

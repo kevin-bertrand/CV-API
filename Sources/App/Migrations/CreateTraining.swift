@@ -11,18 +11,18 @@ import Vapor
 struct CreateTraining: AsyncMigration {
     // Create DB
     func prepare(on database: Database) async throws {
-        try await database.schema(Training.schema)
+        try await database.schema(NameManager.Training.schema.rawValue)
             .id()
-            .field("title", .string, .required)
-            .field("organization", .string, .required)
-            .field("date", .date, .required)
-            .field("document_path", .string, .required)
-            .field("icon", .string, .required)
+            .field(NameManager.Training.title.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Training.organization.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Training.date.rawValue.fieldKey, .date, .required)
+            .field(NameManager.Training.documentPath.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Training.icon.rawValue.fieldKey, .string, .required)
             .create()
     }
     
     // Delete DB
     func revert(on database: Database) async throws {
-        try await database.schema(Training.schema).delete()
+        try await database.schema(NameManager.Training.schema.rawValue).delete()
     }
 }

@@ -10,26 +10,26 @@ import Vapor
 
 final class Training: Model, Content {
     // Name of the table
-    static let schema: String = "trainings"
+    static let schema: String = NameManager.Training.schema.rawValue
     
     // Unique identifier
     @ID()
     var id: UUID?
     
     // Fields
-    @Field(key: "title")
+    @Field(key: NameManager.Training.title.rawValue.fieldKey)
     var title: String
     
-    @Field(key: "organization")
+    @Field(key: NameManager.Training.organization.rawValue.fieldKey)
     var organization: String
     
-    @Field(key: "date")
+    @Field(key: NameManager.Training.date.rawValue.fieldKey)
     var date: Date
     
-    @Field(key: "document_path")
+    @Field(key: NameManager.Training.documentPath.rawValue.fieldKey)
     var documentPath: String
     
-    @Field(key: "icon")
+    @Field(key: NameManager.Training.icon.rawValue.fieldKey)
     var icon: String
     
     // Initialization functions

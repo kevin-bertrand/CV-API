@@ -11,7 +11,7 @@ import Vapor
 struct CreateEnumerations: AsyncMigration {
     // Create DB
     func prepare(on database: Database) async throws {
-        _ = try await database.enum("skills_categories")
+        _ = try await database.enum(NameManager.Enumeration.skillsCategories.rawValue)
             .case(SkillsCategories.backend.rawValue)
             .case(SkillsCategories.frontend.rawValue)
             .case(SkillsCategories.management.rawValue)
@@ -19,7 +19,7 @@ struct CreateEnumerations: AsyncMigration {
             .case(SkillsCategories.automation.rawValue)
             .create()
         
-        _ = try await database.enum("project_categories")
+        _ = try await database.enum(NameManager.Enumeration.projectCategories.rawValue)
             .case(ProjectCategories.iOS.rawValue)
             .case(ProjectCategories.automation.rawValue)
             .create()
@@ -27,7 +27,7 @@ struct CreateEnumerations: AsyncMigration {
     
     // Delete DB
     func revert(on database: Database) async throws {
-        try await database.enum("skills_categories").delete()
-        try await database.enum("project_categories").delete()
+        try await database.enum(NameManager.Enumeration.skillsCategories.rawValue).delete()
+        try await database.enum(NameManager.Enumeration.projectCategories.rawValue).delete()
     }
 }

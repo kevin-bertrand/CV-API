@@ -10,20 +10,20 @@ import Vapor
 
 final class Mission: Model, Content {
     // Name of the table
-    static let schema: String = "mission"
+    static let schema: String = NameManager.Mission.schema.rawValue
     
     // Unique identifier
     @ID()
     var id: UUID?
     
     // Fields
-    @Field(key: "title")
+    @Field(key: NameManager.Mission.title.rawValue.fieldKey)
     var title: String
     
-    @Field(key: "tasks")
+    @Field(key: NameManager.Mission.tasks.rawValue.fieldKey)
     var tasks: String
     
-    @Parent(key: "experience_id")
+    @Parent(key: NameManager.Mission.experienceId.rawValue.fieldKey)
     var experience: Experience
     
     // Initialization functions

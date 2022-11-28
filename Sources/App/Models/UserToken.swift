@@ -10,17 +10,17 @@ import Vapor
 
 final class UserToken: Model, Content {
     // Name of the table
-    static let schema: String = "user_token"
+    static let schema: String = NameManager.UserToken.schema.rawValue
     
     // Unique identifier
     @ID(key: .id)
     var id: UUID?
     
     // Fields
-    @Field(key: "value")
+    @Field(key: NameManager.UserToken.value.rawValue.fieldKey)
     var value: String
     
-    @Parent(key: "user_id")
+    @Parent(key: NameManager.UserToken.userId.rawValue.fieldKey)
     var user: User
     
     // Initialization functions

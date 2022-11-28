@@ -10,29 +10,29 @@ import Vapor
 
 final class Experience: Model, Content {
     // Name of the table
-    static let schema: String = "experience"
+    static let schema: String = NameManager.Experience.schema.rawValue
     
     // Unique identifier
     @ID()
     var id: UUID?
     
     // Fields
-    @Field(key: "title")
+    @Field(key: NameManager.Experience.title.rawValue.fieldKey)
     var title: String
     
-    @Field(key: "company")
+    @Field(key: NameManager.Experience.company.rawValue.fieldKey)
     var company: String
     
-    @Field(key: "location")
+    @Field(key: NameManager.Experience.location.rawValue.fieldKey)
     var location: String
     
-    @Field(key: "start_date")
+    @Field(key: NameManager.Experience.startDate.rawValue.fieldKey)
     var startDate: Date
     
-    @Field(key: "icon")
+    @Field(key: NameManager.Experience.icon.rawValue.fieldKey)
     var icon: String
     
-    @OptionalField(key: "end_date")
+    @OptionalField(key: NameManager.Experience.endDate.rawValue.fieldKey)
     var endDate: Date?
     
     @Children(for: \.$experience)

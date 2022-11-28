@@ -11,15 +11,15 @@ import Vapor
 struct CreateUserToken: AsyncMigration {
     // Create DB
     func prepare(on database: Database) async throws {
-        try await database.schema(UserToken.schema)
+        try await database.schema(NameManager.UserToken.schema.rawValue)
             .id()
-            .field("value", .string, .required)
-            .field("user_id", .uuid, .required, .references(User.schema, "id", onDelete: .cascade))
+            .field(NameManager.UserToken.value.rawValue.fieldKey, .string, .required)
+            .field(NameManager.UserToken.userId.rawValue.fieldKey, .uuid, .required, .references(NameManager.User.schema.rawValue, "id", onDelete: .cascade))
             .create()
     }
     
     // Delete DB
     func revert(on database: Database) async throws {
-        try await database.schema(UserToken.schema).delete()
+        try await database.schema(NameManager.UserToken.schema.rawValue).delete()
     }
 }

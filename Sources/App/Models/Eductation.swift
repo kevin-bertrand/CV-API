@@ -10,32 +10,32 @@ import Vapor
 
 final class Education: Model, Content {
     // Name of the table
-    static let schema: String = "education"
+    static let schema: String = NameManager.Education.schema.rawValue
     
     // Unique identifier
     @ID()
     var id: UUID?
     
     // Fields
-    @Field(key: "school")
+    @Field(key: NameManager.Education.school.rawValue.fieldKey)
     var school: String
     
-    @Field(key: "title")
+    @Field(key: NameManager.Education.title.rawValue.fieldKey)
     var title: String
     
-    @Field(key: "level")
+    @Field(key: NameManager.Education.level.rawValue.fieldKey)
     var level: String
     
-    @Field(key: "location")
+    @Field(key: NameManager.Education.location.rawValue.fieldKey)
     var location: String
     
-    @Field(key: "icon")
+    @Field(key: NameManager.Education.icon.rawValue.fieldKey)
     var icon: String
     
-    @Field(key: "ending_date")
+    @Field(key: NameManager.Education.endingDate.rawValue.fieldKey)
     var endingDate: Date
     
-    @OptionalField(key: "document_path")
+    @OptionalField(key: NameManager.Education.documentPath.rawValue.fieldKey)
     var documentPath: String?
     
     @Children(for: \.$education)

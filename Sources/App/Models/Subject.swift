@@ -10,17 +10,17 @@ import Vapor
 
 final class Subject: Model, Content {
     // Name of the table
-    static let schema: String = "subject"
+    static let schema: String = NameManager.Subject.schema.rawValue
     
     // Unique identifier
     @ID()
     var id: UUID?
     
     // Fields
-    @Field(key: "title")
+    @Field(key: NameManager.Subject.title.rawValue.fieldKey)
     var title: String
     
-    @Parent(key: "education_id")
+    @Parent(key: NameManager.Subject.educationId.rawValue.fieldKey)
     var education: Education
     
     // Initialization functions

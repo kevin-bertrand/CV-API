@@ -11,22 +11,22 @@ import Vapor
 struct CreateProject: AsyncMigration {
     // Create DB
     func prepare(on database: Database) async throws {
-        let category = try await database.enum("project_categories").read()
+        let category = try await database.enum(NameManager.Enumeration.projectCategories.rawValue).read()
         
-        try await database.schema(Project.schema)
+        try await database.schema(NameManager.Project.schema.rawValue)
             .id()
-            .field("title", .string, .required)
-            .field("media_path", .string, .required)
-            .field("description", .string, .required)
-            .field("company", .string, .required)
-            .field("date", .date, .required)
-            .field("github", .string)
-            .field("category", category, .required)
+            .field(NameManager.Project.title.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Project.mediaPath.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Project.description.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Project.company.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Project.date.rawValue.fieldKey, .date, .required)
+            .field(NameManager.Project.github.rawValue.fieldKey, .string)
+            .field(NameManager.Project.category.rawValue.fieldKey, category, .required)
             .create()
     }
     
     // Delete DB
     func revert(on database: Database) async throws {
-        try await database.schema(Project.schema).delete()
+        try await database.schema(NameManager.Project.schema.rawValue).delete()
     }
 }
