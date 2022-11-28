@@ -22,7 +22,7 @@ struct CreateProfile: AsyncMigration {
             .field(NameManager.Profile.title.rawValue.fieldKey, .string, .required)
             .field(NameManager.Profile.github.rawValue.fieldKey, .string, .required)
             .field(NameManager.Profile.linkedin.rawValue.fieldKey, .string, .required)
-            .field(NameManager.Profile.condingames.rawValue.fieldKey, .string, .required)
+            .field(NameManager.Profile.codingames.rawValue.fieldKey, .string, .required)
             .create()
     }
     

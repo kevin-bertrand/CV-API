@@ -44,7 +44,7 @@ final class Profile: Model, Content {
     @Field(key: NameManager.Profile.linkedin.rawValue.fieldKey)
     var linkedin: String
     
-    @Field(key: NameManager.Profile.condingames.rawValue.fieldKey)
+    @Field(key: NameManager.Profile.codingames.rawValue.fieldKey)
     var codingames: String
     
     // Initialization functions
