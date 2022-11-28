@@ -60,14 +60,14 @@ struct EducationController: RouteCollection {
     /// Adding document to eduction
     private func addDocument(req: Request) async throws -> Response {
         guard let key = req.parameters.get("key"),
-              let trainingId = req.parameters.get("id", as: UUID.self) else {
+              let educationId = req.parameters.get("id", as: UUID.self) else {
             throw Abort(.notAcceptable)
         }
         let path = "/var/www/kevin.desyntic.com/public/docs/\(key)"
         
         try await Education.query(on: req.db)
             .set(\.$documentPath, to: key)
-            .filter(\.$id == trainingId)
+            .filter(\.$id == educationId)
             .update()
         
         try req.body.collect()

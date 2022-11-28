@@ -18,6 +18,7 @@ struct ExperienceController: RouteCollection {
         
         let tokenGroup = experienceGroup.grouped(UserToken.authenticator()).grouped(UserToken.guardMiddleware())
         tokenGroup.post(use: create)
+        tokenGroup.patch("icon", ":id", ":key", use: addIcon)
     }
     
     // MARK: Routes functions
@@ -48,6 +49,27 @@ struct ExperienceController: RouteCollection {
                 _ = try await req.client.post("http://\(serverIP):\(serverPort)/mission/\(experienceId)/\(title)/\(tasks)", headers: req.headers)
             }
         }
+        
+        return GlobalFunctions.shared.formatResponse(status: .ok, body: .empty)
+    }
+    
+    /// Adding icon to experience
+    private func addIcon(req: Request) async throws -> Response {
+        guard let key = req.parameters.get("key"),
+              let experienceId = req.parameters.get("id", as: UUID.self) else {
+            throw Abort(.notAcceptable)
+        }
+        let path = "/var/www/kevin.desyntic.com/public/img/\(key)"
+        
+        try await Experience.query(on: req.db)
+            .set(\.$icon, to: key)
+            .filter(\.$id == experienceId)
+            .update()
+        
+        try req.body.collect()
+            .unwrap(or: Abort(.noContent))
+            .flatMap { req.fileio.writeFile($0, at: path)}
+            .wait()
         
         return GlobalFunctions.shared.formatResponse(status: .ok, body: .empty)
     }

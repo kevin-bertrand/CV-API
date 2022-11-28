@@ -18,6 +18,8 @@ struct TrainingController: RouteCollection {
         
         let tokenGroup = trainingGroup.grouped(UserToken.authenticator()).grouped(UserToken.guardMiddleware())
         tokenGroup.post(use: create)
+        tokenGroup.patch("icon", ":id", ":key", use: addIcon)
+        tokenGroup.patch("document", ":id", ":key", use: addDocument)
     }
     
     // MARK: Routes functions
@@ -26,6 +28,48 @@ struct TrainingController: RouteCollection {
         let training = try req.content.decode(Training.self)
         try await training.save(on: req.db)
         return GlobalFunctions.shared.formatResponse(status: .created, body: .empty)
+    }
+    
+    /// Adding icon to trainings
+    private func addIcon(req: Request) async throws -> Response {
+        guard let key = req.parameters.get("key"),
+              let trainingOrganization = req.parameters.get("id") else {
+            throw Abort(.notAcceptable)
+        }
+        let path = "/var/www/kevin.desyntic.com/public/img/\(key)"
+        
+        try await Training.query(on: req.db)
+            .set(\.$icon, to: key)
+            .filter(\.$organization == trainingOrganization)
+            .update()
+        
+        try req.body.collect()
+            .unwrap(or: Abort(.noContent))
+            .flatMap { req.fileio.writeFile($0, at: path)}
+            .wait()
+        
+        return GlobalFunctions.shared.formatResponse(status: .ok, body: .empty)
+    }
+    
+    /// Adding document to trainings
+    private func addDocument(req: Request) async throws -> Response {
+        guard let key = req.parameters.get("key"),
+              let trainingId = req.parameters.get("id", as: UUID.self) else {
+            throw Abort(.notAcceptable)
+        }
+        let path = "/var/www/kevin.desyntic.com/public/docs/\(key)"
+        
+        try await Training.query(on: req.db)
+            .set(\.$documentPath, to: key)
+            .filter(\.$id == trainingId)
+            .update()
+        
+        try req.body.collect()
+            .unwrap(or: Abort(.noContent))
+            .flatMap { req.fileio.writeFile($0, at: path)}
+            .wait()
+        
+        return GlobalFunctions.shared.formatResponse(status: .ok, body: .empty)
     }
     
     /// Getting all trainings

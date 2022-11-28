@@ -18,6 +18,7 @@ struct SkillController: RouteCollection {
         
         let tokenGroup = skillGroup.grouped(UserToken.authenticator()).grouped(UserToken.guardMiddleware())
         tokenGroup.post(use: create)
+        tokenGroup.patch("icon", ":id", ":key", use: addIcon)
     }
     
     // MARK: Routes functions
@@ -26,6 +27,27 @@ struct SkillController: RouteCollection {
         let skill = try req.content.decode(Skill.self)
         try await skill.save(on: req.db)
         return GlobalFunctions.shared.formatResponse(status: .created, body: .empty)
+    }
+    
+    /// Adding icon to skills
+    private func addIcon(req: Request) async throws -> Response {
+        guard let key = req.parameters.get("key"),
+              let skillId = req.parameters.get("id", as: UUID.self) else {
+            throw Abort(.notAcceptable)
+        }
+        let path = "/var/www/kevin.desyntic.com/public/img/\(key)"
+        
+        try await Skill.query(on: req.db)
+            .set(\.$image, to: key)
+            .filter(\.$id == skillId)
+            .update()
+        
+        try req.body.collect()
+            .unwrap(or: Abort(.noContent))
+            .flatMap { req.fileio.writeFile($0, at: path)}
+            .wait()
+        
+        return GlobalFunctions.shared.formatResponse(status: .ok, body: .empty)
     }
     
     /// Getting all skills
