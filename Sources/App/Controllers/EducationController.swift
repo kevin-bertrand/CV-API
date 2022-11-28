@@ -65,7 +65,7 @@ struct EducationController: RouteCollection {
         }
         let path = "/var/www/kevin.desyntic.com/public/docs/\(key)"
         
-        try await Training.query(on: req.db)
+        try await Education.query(on: req.db)
             .set(\.$documentPath, to: key)
             .filter(\.$id == trainingId)
             .update()
