@@ -30,7 +30,7 @@ enum NameManager {
     
     enum Profile: String {
         case schema = "profile"
-        case firstname, lastname, email, phone, city, description, title, github, linkedin, condingames
+        case firstname, lastname, email, phone, city, description, title, github, linkedin, codingames
     }
     
     enum Project: String {
